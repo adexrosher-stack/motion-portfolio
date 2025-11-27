@@ -5,21 +5,21 @@ import { Star } from "lucide-react"
 
 const testimonials = [
   {
-    name: "Sarah Johnson",
+    name: "macrovian technologies",
     role: "Marketing Director, TechStart",
     content:
       "Exceptional work! The video editing transformed our product launch campaign. Highly professional and delivered ahead of schedule.",
     rating: 5,
   },
   {
-    name: "Michael Chen",
+    name: "catch up marketing group",
     role: "Content Creator, 500K Followers",
     content:
       "Best motion graphics designer I've worked with. Creative, responsive, and truly understands the YouTube algorithm.",
     rating: 5,
   },
   {
-    name: "Emma Rodriguez",
+    name: "abebe mekonen",
     role: "Brand Manager, Creative Agency",
     content:
       "Consistently delivers stunning visuals. The attention to detail and creative problem-solving is unmatched.",

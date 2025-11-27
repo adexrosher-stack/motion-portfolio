@@ -32,7 +32,7 @@ export function HeroSection() {
             textShadow: "0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.3)",
           }}
         >
-          Hi, I'm Alex Chen
+          Hi, I'm Adex rosher
         </motion.h1>
 
         <motion.p

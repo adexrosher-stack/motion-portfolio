@@ -1,50 +1,99 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Link from "next/link"
-import Image from "next/image"
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
-interface ProjectCardProps {
-  id: string
-  title: string
-  description: string
-  image: string
-  category: string
+export interface ProjectCardProps {
+  id: string;
+  title: string;
+  description: string;
+  video: string;
+  image: string;
+  category: string;
+  autoPlayOnScroll?: boolean;
+  tapToPlay?: boolean;
+  aspectRatio?: "16:9" | "9:16";
 }
 
-export function ProjectCard({ id, title, description, image, category }: ProjectCardProps) {
+export function ProjectCard({
+  title,
+  description,
+  video,
+  image,
+  autoPlayOnScroll = false,
+  tapToPlay = false,
+  aspectRatio = "16:9",
+}: ProjectCardProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Autoplay on scroll
+  useEffect(() => {
+    if (!autoPlayOnScroll || !videoRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (videoRef.current) {
+          if (entry.isIntersecting) {
+            videoRef.current.play().catch(() => {});
+            setIsPlaying(true);
+          } else {
+            videoRef.current.pause();
+            setIsPlaying(false);
+          }
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(videoRef.current);
+    return () => observer.disconnect();
+  }, [autoPlayOnScroll]);
+
+  // Tap-to-play
+  const handleTap = () => {
+    if (tapToPlay && videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef.current.play();
+        setIsPlaying(true);
+      }
+    }
+  };
+
+  const aspectClass = aspectRatio === "9:16" ? "aspect-[9/16]" : "aspect-[16/9]";
+
   return (
-    <Link href={`/projects/${id}`}>
-      <motion.div
-        className="group relative overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer h-full"
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.3 }}
-      >
-        {/* Image container */}
-        <div className="relative w-full h-64 overflow-hidden bg-muted">
-          <Image
-            src={image || "/placeholder.svg"}
-            alt={title}
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-300"
-          />
-
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-accent/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-            <div className="text-white">
-              <p className="text-sm font-medium mb-2">{category}</p>
-              <h3 className="text-xl font-bold font-clash">{title}</h3>
-            </div>
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer border border-gray-200 hover:shadow-xl transition-shadow"
+      onClick={handleTap}
+    >
+      <div className={`relative w-full bg-black ${aspectClass}`}>
+        <video
+          ref={videoRef}
+          src={video}
+          poster={image}
+          className="w-full h-full object-cover"
+          loop
+          muted
+          playsInline
+        />
+        {!isPlaying && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-4xl font-bold">
+            ▶
           </div>
-        </div>
+        )}
+      </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <h3 className="text-lg font-bold font-clash text-foreground mb-2">{title}</h3>
-          <p className="text-muted-foreground text-sm line-clamp-2">{description}</p>
-          <div className="mt-4 flex items-center text-primary font-medium text-sm">View Project →</div>
-        </div>
-      </motion.div>
-    </Link>
-  )
+      <div className="p-5">
+        <h3 className="text-xl font-bold text-foreground mb-2">{title}</h3>
+        <p className="text-muted-foreground text-sm">{description}</p>
+      </div>
+    </motion.div>
+  );
 }

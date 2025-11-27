@@ -1,66 +1,74 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { ProjectCard } from "./project-card"
-import { useState } from "react"
+import { motion } from "framer-motion";
+import { ProjectCard } from "./project-card";
+import { useState } from "react";
 
 const projects = [
   {
     id: "corporate-promo",
     title: "Corporate Promo",
     description: "High-energy promotional video for tech startup",
-    image: "/corporate-video-editing.png",
+    video: "/one.mp4",
+    image: "/thumbnails/corporate-promo.jpg",
     category: "Commercial",
   },
   {
     id: "music-video",
     title: "Music Video",
     description: "Cinematic music video with motion graphics",
-    image: "/music-video-production.png",
+    video: "/two.mp4",
+    image: "/thumbnails/music-video.jpg",
     category: "Music",
   },
   {
     id: "product-demo",
     title: "Product Demo",
     description: "Sleek product demonstration with animations",
-    image: "/product-demo-video.png",
+    video: "/three.mp4",
+    image: "/thumbnails/product-demo.jpg",
     category: "Product",
   },
   {
     id: "brand-story",
     title: "Brand Story",
     description: "Emotional brand narrative with motion design",
-    image: "/brand-storytelling-video.jpg",
+    video: "/vox.mp4",
+    image: "/thumbnails/brand-story.jpg",
     category: "Branding",
   },
   {
     id: "event-recap",
     title: "Event Recap",
     description: "Dynamic event coverage with creative editing",
-    image: "/event-video-production.jpg",
+    video: "/1009.mp4",
+    image: "/thumbnails/event-recap.jpg",
     category: "Events",
   },
   {
     id: "animation-reel",
     title: "Animation Reel",
     description: "Showcase of motion graphics and animations",
-    image: "/abstract-motion-graphics.png",
+    video: "/rosher.mp4",
+    image: "/thumbnails/animation-reel.jpg",
     category: "Animation",
   },
-]
+];
 
-const categories = ["All", "Commercial", "Music", "Product", "Branding", "Events", "Animation"]
+const categories = ["All", "Commercial", "Music", "Product", "Branding", "Events", "Animation"];
 
 export function ProjectsSection() {
-  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredProjects =
-    selectedCategory === "All" ? projects : projects.filter((project) => project.category === selectedCategory)
+    selectedCategory === "All"
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
   return (
     <section id="projects" className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        {/* Section header */}
+        {/* Header */}
         <motion.div
           className="mb-16 text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -69,12 +77,15 @@ export function ProjectsSection() {
           viewport={{ once: true }}
         >
           <div className="w-16 h-1 bg-primary mx-auto mb-6" />
-          <h2 className="text-4xl md:text-5xl font-bold font-clash text-foreground mb-4">Featured Work</h2>
+          <h2 className="text-4xl md:text-5xl font-bold font-clash text-foreground mb-4">
+            Featured Work
+          </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             A selection of recent projects showcasing video editing and motion graphics expertise
           </p>
         </motion.div>
 
+        {/* Category filter */}
         <motion.div
           className="flex flex-wrap justify-center gap-3 mb-12"
           initial={{ opacity: 0, y: 10 }}
@@ -97,7 +108,7 @@ export function ProjectsSection() {
           ))}
         </motion.div>
 
-        {/* Projects grid */}
+        {/* Projects grid (Rule B applied) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {filteredProjects.map((project, index) => (
             <motion.div
@@ -108,7 +119,12 @@ export function ProjectsSection() {
               viewport={{ once: true }}
               layout
             >
-              <ProjectCard {...project} />
+              <ProjectCard
+                {...project}
+                autoPlayOnScroll
+                tapToPlay
+                aspectRatio={index < 3 ? "9:16" : "16:9"}
+              />
             </motion.div>
           ))}
         </div>
@@ -127,5 +143,5 @@ export function ProjectsSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

@@ -13,7 +13,7 @@ export function Footer() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-muted-foreground">© 2025 Alex Chen — Designed & Built with ❤️</p>
+          <p className="text-muted-foreground">© 2025 Adex rosher — Designed & Built with ❤️</p>
           <p className="text-sm text-muted-foreground mt-2">Video Editor & Motion Graphics Designer</p>
         </motion.div>
       </div>

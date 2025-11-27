@@ -17,7 +17,7 @@ const services = [
   },
   {
     icon: Palette,
-    title: "Color Grading",
+    title: "Color Grading and correction",
     description: "Professional color correction and grading to enhance the visual appeal and mood of your footage.",
   },
   {
@@ -32,8 +32,8 @@ const services = [
   },
   {
     icon: Eye,
-    title: "Consultation",
-    description: "Creative consultation and concept development to help you achieve your vision.",
+    title: "Content creation",
+    description: "Creative content creation and concept development to help you achieve your vision.",
   },
 ]
 

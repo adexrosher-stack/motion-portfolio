@@ -6,7 +6,7 @@ import "./globals.css"
 
 const clashDisplay = Clash_Display({
   subsets: ["latin"],
-  weight: ["700"],
+  weight: ["400"],
   variable: "--font-clash",
 })
 
@@ -17,9 +17,9 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Video Editor & Motion Graphics Designer",
+  title: "ROSHER",
   description: "Cinematic portfolio showcasing video editing and motion graphics work",
-  generator: "v0.app",
+  generator: "rosher",
 }
 
 export default function RootLayout({

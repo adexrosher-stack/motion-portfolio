@@ -15,9 +15,9 @@ export function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="relative h-96 rounded-xl overflow-hidden shadow-lg"
+            className="relative h-140 rounded-xl overflow-hidden shadow-lg"
           >
-            <Image src="/video-editor-portrait.jpg" alt="About me" fill className="object-cover" />
+            <Image src="/port.jpg" alt="About me" fill className="object-cover" />
           </motion.div>
 
           {/* Content */}
@@ -30,8 +30,8 @@ export function AboutSection() {
             <h2 className="text-4xl md:text-5xl font-bold font-clash text-foreground mb-6">About Me</h2>
 
             <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              With over 8 years of experience in video editing and motion graphics, I've worked with brands ranging from
-              startups to Fortune 500 companies. My passion is transforming raw footage into compelling visual stories
+              With over 2 years of experience in video editing and motion graphics, I've worked with brands ranging from
+              startups to Fortune companies. My passion is transforming raw footage into compelling visual stories
               that resonate with audiences.
             </p>
 

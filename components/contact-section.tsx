@@ -1,124 +1,158 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Linkedin, Twitter, Instagram, Youtube, Mail } from "lucide-react"
+import { motion } from "framer-motion";
+import { useState } from "react";
+import {
+  FaLinkedin,
+  FaTelegram,
+  FaInstagram,
+  FaYoutube,
+  FaTwitter,
+  FaTiktok,
+} from "react-icons/fa";
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  })
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    setFormData({ name: "", email: "", message: "" })
-  }
+    const form = e.currentTarget;
+    const data = new FormData(form);
 
-  const socialLinks = [
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Youtube, href: "#", label: "YouTube" },
-    { icon: Mail, href: "#", label: "Email" },
-  ]
+    try {
+      const res = await fetch("https://formspree.io/f/mwpwpgow", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
 
   return (
-    <section id="contact" className="py-20 px-4 bg-accent text-white">
-      <div className="max-w-4xl mx-auto">
+    <section id="contact" className="py-20 px-4 bg-gray-50">
+      <div className="max-w-4xl mx-auto text-center">
+        {/* Header */}
         <motion.div
-          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold font-clash mb-4">Let's Work Together</h2>
-          <p className="text-lg text-white/80">Have a project in mind? Let's create something amazing together.</p>
+          <h2 className="text-4xl md:text-5xl font-bold font-clash text-foreground mb-6">
+            Get In Touch
+          </h2>
+          <p className="text-lg text-muted-foreground mb-12">
+            Have a question, project idea, or collaboration in mind? Send me a message below!
+          </p>
         </motion.div>
 
-        {/* Contact form */}
+        {/* Contact Form */}
         <motion.form
           onSubmit={handleSubmit}
-          className="mb-12 space-y-6"
+          className="space-y-6 bg-white p-8 rounded-2xl shadow-lg border border-gray-200"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-6 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-primary focus:outline-none transition-colors"
+            <div className="text-left">
+              <label htmlFor="name" className="block font-semibold mb-2 text-foreground">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                placeholder="Your name"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+            <div className="text-left">
+              <label htmlFor="email" className="block font-semibold mb-2 text-foreground">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="you@example.com"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+          </div>
+
+          <div className="text-left">
+            <label htmlFor="message" className="block font-semibold mb-2 text-foreground">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
               required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-6 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-primary focus:outline-none transition-colors"
-              required
+              rows={5}
+              placeholder="Write your message here..."
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            value={formData.message}
-            onChange={handleChange}
-            rows={6}
-            className="w-full px-6 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-primary focus:outline-none transition-colors resize-none"
-            required
-          />
-
-          <Button
+          <motion.button
             type="submit"
-            className="w-full bg-white text-accent hover:bg-white/90 font-bold py-3 rounded-lg transition-all duration-300"
+            disabled={status === "sending"}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="w-full px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary/90 transition-colors"
           >
-            Send Message
-          </Button>
+            {status === "sending"
+              ? "Sending..."
+              : status === "success"
+              ? "✅ Message Sent!"
+              : status === "error"
+              ? "❌ Error — Try Again"
+              : "Send Message"}
+          </motion.button>
         </motion.form>
 
+        {/* Social Media Links */}
         <motion.div
-          className="flex justify-center items-center gap-6"
-          initial={{ opacity: 0, y: 20 }}
+          className="flex justify-center flex-wrap gap-6 mt-12"
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
-          {socialLinks.map((social, index) => {
-            const Icon = social.icon
-            return (
-              <motion.a
-                key={index}
-                href={social.href}
-                aria-label={social.label}
-                className="p-3 rounded-full bg-white/10 border border-white/20 text-white hover:bg-primary hover:border-primary transition-all duration-300"
-                whileHover={{ scale: 1.1, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Icon size={24} />
-              </motion.a>
-            )
-          })}
+          <a href="https://linkedin.com/in/yourprofile" target="_blank" className="text-gray-600 hover:text-blue-700">
+            <FaLinkedin size={30} />
+          </a>
+          <a href="https://t.me/adexrosher" target="_blank" className="text-gray-600 hover:text-sky-500">
+            <FaTelegram size={30} />
+          </a>
+          <a href="https://instagram.com/yourprofile" target="_blank" className="text-gray-600 hover:text-pink-500">
+            <FaInstagram size={30} />
+          </a>
+          <a href="https://youtube.com/@yourchannel" target="_blank" className="text-gray-600 hover:text-red-500">
+            <FaYoutube size={30} />
+          </a>
+          <a href="https://twitter.com/yourhandle" target="_blank" className="text-gray-600 hover:text-sky-400">
+            <FaTwitter size={30} />
+          </a>
+          <a href="https://tiktok.com/@yourhandle" target="_blank" className="text-gray-600 hover:text-black">
+            <FaTiktok size={30} />
+          </a>
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
