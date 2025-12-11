@@ -17,7 +17,7 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="relative h-140 rounded-xl overflow-hidden shadow-lg"
           >
-            <Image src="/port.jpg" alt="About me" fill className="object-cover" />
+            <Image src="/thumbnails/port.jpg" alt="About me" fill className="object-cover" />
           </motion.div>
 
           {/* Content */}

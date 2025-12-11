@@ -19,8 +19,8 @@ const projectsData: Record<string, any> = {
     solution:
       "We utilized dynamic transitions, kinetic typography, and carefully selected music to create momentum throughout the piece.",
     tools: ["Premiere Pro", "After Effects", "DaVinci Resolve"],
-    image: "/corporate-video-scene.png",
-    gallery: ["/video-editing-frame-1.jpg", "/video-editing-frame-2.jpg", "/video-editing-frame-3.jpg"],
+    image: "/images/corporate-video-scene.png",
+    gallery: ["/thumbnails/video-editing-frame-1.jpg", "/thumbnails/video-editing-frame-2.jpg", "/thumbnails/video-editing-frame-3.jpg"],
   },
   "music-video": {
     title: "Music Video",
@@ -32,8 +32,8 @@ const projectsData: Record<string, any> = {
     challenge: "Synchronizing complex motion graphics with the music beat while maintaining narrative coherence.",
     solution: "Developed a detailed storyboard and used precise keyframing to align visual elements with musical cues.",
     tools: ["After Effects", "Premiere Pro", "Photoshop"],
-    image: "/music-video-production.png",
-    gallery: ["/music-video-frame-1.jpg", "/music-video-frame-2.jpg", "/music-video-frame-3.jpg"],
+    image: "/images/music-video-production.png",
+    gallery: ["/thumbnails/music-video-frame-1.jpg", "/thumbnails/music-video-frame-2.jpg", "/thumbnails/music-video-frame-3.jpg"],
   },
 }
 

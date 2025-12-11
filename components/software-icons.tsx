@@ -48,7 +48,7 @@ export function PremierProIcon({ className = "w-16 h-16" }: IconProps) {
 export function BlenderIcon({ className = "w-16 h-16" }: { className?: string }) {
   return (
     <img
-      src="/blender.png"
+      src="/images/blender.png"
       alt="Blender"
       className={`${className} object-contain`}
     />
@@ -58,7 +58,7 @@ export function BlenderIcon({ className = "w-16 h-16" }: { className?: string })
 export function CapCutIcon({ className = "w-16 h-16" }: { className?: string }) {
   return (
     <img
-      src="/capcut.png"
+      src="/images/capcut.png"
       alt="CapCut"
       className={`${className} object-contain`}
     />

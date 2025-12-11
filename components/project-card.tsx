@@ -27,32 +27,35 @@ export function ProjectCard({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Autoplay on scroll
+  // Autoplay when visible
   useEffect(() => {
     const vid = videoRef.current;
     if (!autoPlayOnScroll || !vid) return;
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (!vid) return;
+      async (entries) => {
+        const entry = entries[0];
         if (entry.isIntersecting) {
-          vid.play().catch(() => console.log(`Autoplay blocked: ${video}`));
-          setIsPlaying(true);
+          try {
+            await vid.play();
+            setIsPlaying(true);
+          } catch (err) {
+            console.log("Autoplay blocked:", video);
+          }
         } else {
           vid.pause();
           setIsPlaying(false);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.45 }
     );
 
     observer.observe(vid);
     return () => observer.disconnect();
   }, [autoPlayOnScroll, video]);
 
-  // Tap-to-play
-  const handleTap = () => {
+  // Tap to play/pause support
+  const handleTap = async () => {
     const vid = videoRef.current;
     if (!tapToPlay || !vid) return;
 
@@ -60,12 +63,17 @@ export function ProjectCard({
       vid.pause();
       setIsPlaying(false);
     } else {
-      vid.play().catch(() => console.log(`Tap-to-play blocked: ${video}`));
-      setIsPlaying(true);
+      try {
+        await vid.play();
+        setIsPlaying(true);
+      } catch (err) {
+        console.log("Tap-to-play blocked:", video);
+      }
     }
   };
 
-  const aspectClass = aspectRatio === "9:16" ? "aspect-[9/16]" : "aspect-[16/9]";
+  const aspectClass =
+    aspectRatio === "9:16" ? "aspect-[9/16]" : "aspect-[16/9]";
 
   return (
     <motion.div
@@ -77,14 +85,21 @@ export function ProjectCard({
       <div className={`relative w-full bg-black ${aspectClass}`}>
         <video
           ref={videoRef}
-          src={video}
           poster={image}
           className="w-full h-full object-cover"
           loop
           muted
           playsInline
-          onError={() => console.log(`Failed to load video: ${video}`)}
-        />
+          preload="auto"
+          onLoadedData={() => console.log("Video loaded:", video)}
+          onError={() =>
+            console.warn(`Failed to load video: ${video}`)
+          }
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+
+        {/* Play icon overlay */}
         {!isPlaying && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-4xl font-bold pointer-events-none">
             ▶
@@ -93,7 +108,9 @@ export function ProjectCard({
       </div>
 
       <div className="p-5">
-        <h3 className="text-xl font-bold text-foreground mb-2">{title}</h3>
+        <h3 className="text-xl font-bold text-foreground mb-2">
+          {title}
+        </h3>
         <p className="text-muted-foreground text-sm">{description}</p>
       </div>
     </motion.div>

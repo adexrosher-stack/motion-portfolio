@@ -13,7 +13,7 @@ const caseStudies = [
     challenge: "Condense complex technical features into an engaging 60-second video",
     solution: "Dynamic transitions, kinetic typography, and carefully selected music",
     result: "300% increase in engagement",
-    image: "/macrovian.jpg" ,
+    image: "/thumbnails/macrovian.jpg" ,
     slug: "corporate-promo",
   },
   {
@@ -24,7 +24,7 @@ const caseStudies = [
     challenge: "Synchronize  motion graphics logo animation",
     solution: "Detailed storyboard and precise keyframing aligned with musical cues",
     result: "500K+ views on release",
-    image: "/asio.jpg",
+    image: "/thumbnails/asio.jpg",
     slug: "logo animation",
   },
   {
@@ -35,7 +35,7 @@ const caseStudies = [
     challenge: "Create emotional connection with target audience",
     solution: "Cinematic storytelling with motion design and color grading",
     result: "2M+ impressions",
-    image:"/up.jpg",
+    image:"/thumbnails/up.jpg",
     slug: "brand-story",
   },
 ]
